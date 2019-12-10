@@ -5,7 +5,7 @@ The code was written by Louis Deveze &amp; Maxime Tran.
 
 ### Content
 
-#####This Project contains the following features
+####This Project contains the following features
 
 - Populate a LevelDB database with two users and a few metrics for each one.
 - Authenticate using Login / Signin / Logout
@@ -27,7 +27,7 @@ The code was written by Louis Deveze &amp; Maxime Tran.
 
 ### Libraries
 
-#####This Project uses the following library to run :
+####This Project uses the following library to run :
 - [Express](http://expressjs.com/) : minimalist web framework for Node.js
 - [Bootstrap 4](https://getbootstrap.com/) : CSS and Javascript toolkit for web devloppers
 - [JQuery](https://jquery.com/) : Javascript Library
