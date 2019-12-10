@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include header/head %>
+</head>
+
+<body>
+        <div class="jumbotron text-center" >
+                <h1>NodeJS - ECE - Project</h1>
+                <p>by Louis Devèze & Maxime Tran</p>
+            </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 card" style="margin-right:80px">
+                <div class="card-header bg-secondary text-white">
+                    <h3 style="text-align: center">Sign in</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/signin" method="post">
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-md-4"> Username: </div>
+                            <div class="col-md-8"> <input type="text" class="form-control" name="uname"> </div>
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-md-4"> Password: </div>
+                            <div class="col-md-8"> <input type="password" class="form-control" name="pswd"> </div>
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-md-12" style="text-align: center"> <input type="submit" class="btn btn-primary" value="Sign in"> </div>
+                        </div> 
+                            
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-6 card" >
+                <div class="card-header bg-secondary text-white" >
+                    <h3 style="text-align: center">Log in</h3>
+                </div>
+                <div class="card-body">
+                        <form action="/login" method="post">
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-md-4"> Username: </div>
+                                <div class="col-md-8"> <input type="text" class="form-control" name="uname"> </div>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-md-4"> Password: </div>
+                                <div class="col-md-8"> <input type="password" class="form-control" name="pswd"> </div>
+                            </div>
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-md-12" style="text-align: center"> <input type="submit" class="btn btn-primary" value="Login"> </div>
+                            </div> 
+                                
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
