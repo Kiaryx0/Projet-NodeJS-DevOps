@@ -23,7 +23,16 @@ export class MetricsHandler {
         this.db.close();
     }
 
-    public save(key: string, metrics: Metric[], callback: (error: Error | null) => void) {
+    public save(key: string, timestamp: number, value: number, callback: (error: Error | null) => void) {
+
+        const stream = WriteStream(this.db)
+        stream.on('error', callback)
+        stream.on('close', callback)
+        stream.write({ key: `metric:${key}:${timestamp}`, value: Number(value) })
+        stream.end()
+    }
+
+    public saveMany(key: string, metrics: Metric[], callback: (error: Error | null) => void) {
 
         const stream = WriteStream(this.db)
         stream.on('error', callback)
@@ -34,25 +43,7 @@ export class MetricsHandler {
         stream.end()
     }
 
-    public loadAllMetrics(callback: (error: Error | null, result: any | null) => void) {
-
-        let metrics: Metric[] = [];
-        this.db.createReadStream()
-            .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                metrics.push(new Metric(key[2], data.value))
-            })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
-            })
-            .on('close', function () {})
-            .on('end', function () {
-                console.log('Stream ended')
-                callback(null, metrics);
-            })
-    }
-
-    public loadAllMetricsFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
+    public loadAllFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
         this.db.createReadStream()
@@ -62,17 +53,13 @@ export class MetricsHandler {
                     metrics.push(new Metric(key[2], data.value))
                 }
             })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
-            })
             .on('close', function () {})
             .on('end', function () {
-                console.log('Stream ended')
                 callback(null, metrics);
             })
     }
 
-    public loadOneMetricFrom(name: string, timestamp: number, callback: (error: Error | null, result: any | null) => void) {
+    public loadOneFrom(name: string, timestamp: number, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
         this.db.createReadStream()
@@ -81,37 +68,37 @@ export class MetricsHandler {
                 if(key[1]===name && key[2]===timestamp.toString()){
                     metrics.push(new Metric(key[2], data.value))
                 }
-                    
-            })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
             })
             .on('close', function () {})
             .on('end', function () {
-                console.log('Stream ended')
-                callback(null, metrics);
+                if(metrics.length === 1){
+                    callback(null, metrics[0]);
+                }
+                else{
+                    callback(null, null);
+                }
             })
     }
 
-    public deleteAllMetrics(callback: (error: Error | null, result: any | null) => void) {
+    public deleteOneFrom(name: string, timestamp: number, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
         this.db.createReadStream()
             .on('data', function (data) {
                 let key : string[] = data.key.split(":"); 
-                metrics.push(new Metric(data.key, data.value))
-            })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
+                if(key[1]===name && key[2]===timestamp.toString()){
+                    metrics.push(new Metric(data.key, data.value))
+                }
             })
             .on('close', function () {})
             .on('end', function () {
-                console.log('Stream ended')
                 callback(null, metrics);
             })
     }
 
-    public deleteAllMetricsFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
+    
+
+    public deleteAllFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
         this.db.createReadStream()
@@ -121,42 +108,18 @@ export class MetricsHandler {
                     metrics.push(new Metric(data.key, data.value))
                 }
             })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
-            })
             .on('close', function () {})
             .on('end', function () {
-                console.log('Stream ended')
                 callback(null, metrics);
             })
     }
 
-    public deleteOneMetricFrom(name: string, timestamp: number, callback: (error: Error | null, result: any | null) => void) {
-
-        let metrics: Metric[] = [];
-        this.db.createReadStream()
-            .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                if(key[1]===name && key[2]===timestamp.toString()){
-                    metrics.push(new Metric(data.key, data.value))
-                }
-                    
-            })
-            .on('error', function (err) {
-                console.log('Oh my!', err)
-            })
-            .on('close', function () {})
-            .on('end', function () {
-                console.log('Stream ended')
-                callback(null, metrics);
-            })
-    }
-
-    public delete(metrics: Metric[]){
+    public delete( metrics: Metric[]){
         metrics.forEach((m: Metric) => {
-            console.log("Deleting " + m.timestamp)
-            this.db.del(m.timestamp)
+            console.log("Deleting " + m.timestamp);
+            this.db.del(m.timestamp);
         })
     }
+
 }
 

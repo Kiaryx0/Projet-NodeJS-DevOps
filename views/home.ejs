@@ -28,7 +28,15 @@
             chart.gradientColor = gcolor;
             chart.backgroundColor = "#fff";
             // Data
-            chart.xLabel = [];
+            chart.dates = [];
+            chart.times = [];
+
+            this.resize = function (width, height) {
+                chart.width = width;
+                chart.height = height;
+                context.width = width;
+                context.height = height;
+            }
 
             // Draw method updates the canvas with the current display
             this.draw = function (arr) {
@@ -56,7 +64,7 @@
                 context.fillRect(0, 0, chart.width, chart.height);
 
                 // If x axis labels exist then make room	
-                if (chart.xLabel.length) {
+                if (chart.dates.length) {
                     graphAreaHeight -= 40;
                 }
 
@@ -109,13 +117,14 @@
                             graphAreaHeight - barHeight - 10);
                     } catch (ex) { }
                     // Draw bar label if it exists
-                    if (chart.xLabel[i]) {
+                    if (chart.dates[i]) {
                         // Use try / catch to avoid error looping			
                         context.fillStyle = "#333";
                         context.font = "bold 12px arial";
                         context.textAlign = "center";
                         try {
-                            context.fillText(chart.xLabel[i], i * chart.width / numOfBars + (chart.width / numOfBars) / 2, chart.height - 10);
+                            context.fillText(chart.dates[i], i * chart.width / numOfBars + (chart.width / numOfBars) / 2, chart.height - 20);
+                            context.fillText(chart.times[i], i * chart.width / numOfBars + (chart.width / numOfBars) / 2, chart.height - 5);
                         } catch (ex) { }
                     }
                 }
@@ -151,20 +160,25 @@
     <div style="margin:50px;">
         <div class="row">
             <div class="col-sm-4">
-                <form action="/home" method="get">
-                    <div class="card" style="margin-left: 30px; margin-right: 30px;">
+                <form action="/home/search" method="get">
+                    <div class="card" style="margin-left: 30px; margin-right: 30px;  height: 300px">
                         <div class="card-header" style="font-weight: bold; font-size: large;">Search a Metric</div>
                         <div class="card-body">
                             <div class="row" style="margin-top:20px">
                                 <div class="col-md-2" style="font-weight: bold;"> Date </div>
-                                <div class="col-md-4"> <input type="date" class="form-control" name="date"> </div>
+                                <div class="col-md-4"> <input type="date" class="form-control" name="date">
+                                </div>
                                 <div class="col-md-2" style="font-weight: bold;"> Time </div>
                                 <div class="col-md-4"> <input type="time" class="form-control" name="time">
                                 </div>
                             </div>
                             <div class="row" style="margin-top:20px">
                                 <div class="col-md-2" style="font-weight: bold;"> Value </div>
-                                <div class="col-md-10"> <input type="number" class="form-control" name="value"> </div>
+                                <div class="col-md-10">
+                                    <% if(locals.metric){%>
+                                    <h6><%-JSON.stringify(metric.value)%></h6>
+                                    <%}%>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -177,21 +191,21 @@
                 </form>
             </div>
             <div class="col-sm-4">
-                <form action="/get" method="get">
-                    <div class="card" style="margin-left: 30px; margin-right: 30px;">
+                <form action="/home/insert" method="POST">
+                    <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px">
                         <div class="card-header" style="font-weight: bold; font-size: large;">Insert/Update a Metric
                         </div>
                         <div class="card-body">
                             <div class="row" style="margin-top:20px">
                                 <div class="col-md-2" style="font-weight: bold;"> Date </div>
-                                <div class="col-md-4"> <input type="date" class="form-control" name="date"> </div>
+                                <div class="col-md-4"> <input type="date" class="form-control" name="date" required> </div>
                                 <div class="col-md-2" style="font-weight: bold;"> Time </div>
-                                <div class="col-md-4"> <input type="time" class="form-control" name="time">
+                                <div class="col-md-4"> <input type="time" class="form-control" name="time" required>
                                 </div>
                             </div>
                             <div class="row" style="margin-top:20px">
                                 <div class="col-md-2" style="font-weight: bold;"> Value </div>
-                                <div class="col-md-10"> <input type="number" class="form-control" name="value"> </div>
+                                <div class="col-md-10"> <input type="number" class="form-control" name="value" required> </div>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -204,83 +218,81 @@
                 </form>
             </div>
             <div class="col-sm-4">
-                <form action="/get" method="get">
-                    <div class="card" style="margin-left: 30px; margin-right: 30px;">
+                <form action="/home/delete" method="POST">
+                    <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px">
                         <div class="card-header" style="font-weight: bold; font-size: large;">Delete a Metric</div>
                         <div class="card-body">
                             <div class="row" style="margin-top:20px">
                                 <div class="col-md-2" style="font-weight: bold;"> Date </div>
-                                <div class="col-md-4"> <input type="date" class="form-control" name="date"> </div>
+                                <div class="col-md-4"> <input type="date" class="form-control" name="date" required> </div>
                                 <div class="col-md-2" style="font-weight: bold;"> Time </div>
-                                <div class="col-md-4"> <input type="time"  class="form-control" name="time">
+                                <div class="col-md-4"> <input type="time"  class="form-control" name="time" required>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Value </div>
-                                <div class="col-md-10"> <input type="number" class="form-control" name="value"> </div>
                             </div>
                         </div>
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-6" style="text-align: center"> <input type="submit"
                                         class="btn btn-danger" value="Delete"> </div>
-
-                                <div class="col-md-6" style="text-align: center"> <input type="button"
+                                        
+                </form>
+                                <form action="/home/deleteall" method="POST">
+                                <div class="col-md-6" style="text-align: center"> <input type="submit"
                                         class="btn btn-danger" value="Delete All"> </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
 
     <div style="margin:50px;">
-        <div class="row">
-            <div class="col-sm-8">
-                <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px;">
+                <div class="card" style="margin-left: 30px; margin-right: 30px; height: 350px;">
                     <div class="card-header" style="font-weight: bold; font-size: large;">
                         <div class="row">
                             <div class="col-sm-3">Metrics View</div>
                             <div class="col-sm-6"></div>
-                            <div class="col-sm-3" style="text-align: right;"><input type="button"
-                                    class="btn btn-primary" value="Update"> </div>
+                            <div class="col-sm-3" style="text-align: right;">
+                                <form action="/home" method="POST">
+                                    <input type="button"class="btn btn-primary" value="Update">
+                                </form> 
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="metrics" style="text-align: center;"></div>
-                        <script>
-                            (function () {
-                                var graph = new BarGraph('metrics', 400, 200, "blue", "cyan");
-                                graph.xLabel = ["Date 1", "Date 2", "Date 3", "Date 4", "Date 5", "Date 6", "Date 7"];
-                                graph.draw([15, 10, 29, 10, 40, 39, 27]);
-                            }());
-                        </script>
+                        <div id="dataset" data-test=<%= JSON.stringify(dataset) %>></div>
+                                <div id="metrics" style="text-align: center;"></div>
+                                <script>
+                                    var graph = new BarGraph('metrics', 400, 350, "blue", "cyan");
+
+
+                                    function update() {
+                                        let metrics = JSON.parse(document.getElementById("dataset").dataset.test);
+                                        let dates = [];
+                                        let times = [];
+                                        let values = [];
+                                        for (let i = 0; i < metrics.length; i++) {
+                                            let date = new Date(Number(metrics[i].timestamp));
+                                            let month = date.getUTCMonth() > 9 ? date.getUTCMonth() + 1 : "0" + (date.getUTCMonth() + 1);
+                                            let day = date.getUTCDate() > 9 ? date.getUTCDate() : ("0" + date.getUTCDate());
+                                            let min = date.getUTCMinutes() > 9 ? date.getUTCMinutes() : ("0" + date.getUTCMinutes());
+
+                                            dates.push(day + "-" + month + "-" + date.getUTCFullYear());
+                                            times.push(date.getUTCHours() + ":" + min);
+                                            values.push(metrics[i].value);
+                                        }
+                                        graph.dates = dates;
+                                        graph.times = times;
+                                        graph.resize(document.getElementById("metrics").offsetWidth * (3 / 4), 230)
+                                        graph.draw(values);
+                                    }
+                                    window.onresize = update;
+                                    window.onload = update
+                                </script>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px;">
-                    <div class="card-header" style="font-weight: bold; font-size: large;">Result Board</div>
-                    <div class="card-body">
-                        <h4 style="color: limegreen;">Search Found !</h4>
-                        <div class="row">
-                            <div class="col-sm-3" style="font-weight: bold; font-size: large;">Date :</div>
-                            <div class="col-sm-9"> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3" style="font-weight: bold; font-size: large;">Time :</div>
-                            <div class="col-sm-9"> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3" style="font-weight: bold; font-size: large;">Value :</div>
-                            <div class="col-sm-9"> <%=metric%></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 </body>
