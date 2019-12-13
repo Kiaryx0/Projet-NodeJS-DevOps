@@ -26,7 +26,7 @@
     "level-ws": "^2.0.0",
     "leveldown": "^5.4.1",
     "levelup": "^4.3.2",
-    "npm": "^6.13.1"
+    "npm": "^6.13.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",
