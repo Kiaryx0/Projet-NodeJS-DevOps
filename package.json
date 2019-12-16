@@ -27,7 +27,8 @@
     "level-ws": "^2.0.0",
     "leveldown": "^5.4.1",
     "levelup": "^4.3.2",
-    "node-gyp": "^6.0.1"
+    "node-gyp": "^6.0.1",
+    "npm": "^6.13.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.6",
