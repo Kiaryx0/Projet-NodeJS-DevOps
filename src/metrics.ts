@@ -19,7 +19,7 @@ export class MetricsHandler {
         this.db = LevelDB.open(dbPath);
     }
 
-    public close(){
+    public close() {
         this.db.close();
     }
 
@@ -48,12 +48,12 @@ export class MetricsHandler {
         let metrics: Metric[] = [];
         this.db.createReadStream()
             .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                if(key[1]===name){
+                let key: string[] = data.key.split(":");
+                if (key[1] === name) {
                     metrics.push(new Metric(key[2], data.value))
                 }
             })
-            .on('close', function () {})
+            .on('close', function () { })
             .on('end', function () {
                 callback(null, metrics);
             })
@@ -64,17 +64,17 @@ export class MetricsHandler {
         let metrics: Metric[] = [];
         this.db.createReadStream()
             .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                if(key[1]===name && key[2]===timestamp.toString()){
+                let key: string[] = data.key.split(":");
+                if (key[1] === name && key[2] === timestamp.toString()) {
                     metrics.push(new Metric(key[2], data.value))
                 }
             })
-            .on('close', function () {})
+            .on('close', function () { })
             .on('end', function () {
-                if(metrics.length === 1){
+                if (metrics.length === 1) {
                     callback(null, metrics[0]);
                 }
-                else{
+                else {
                     callback(null, null);
                 }
             })
@@ -85,36 +85,36 @@ export class MetricsHandler {
         let metrics: Metric[] = [];
         this.db.createReadStream()
             .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                if(key[1]===name && key[2]===timestamp.toString()){
+                let key: string[] = data.key.split(":");
+                if (key[1] === name && key[2] === timestamp.toString()) {
                     metrics.push(new Metric(data.key, data.value))
                 }
             })
-            .on('close', function () {})
+            .on('close', function () { })
             .on('end', function () {
                 callback(null, metrics);
             })
     }
 
-    
+
 
     public deleteAllFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
         this.db.createReadStream()
             .on('data', function (data) {
-                let key : string[] = data.key.split(":"); 
-                if(key[1]===name){
+                let key: string[] = data.key.split(":");
+                if (key[1] === name) {
                     metrics.push(new Metric(data.key, data.value))
                 }
             })
-            .on('close', function () {})
+            .on('close', function () { })
             .on('end', function () {
                 callback(null, metrics);
             })
     }
 
-    public delete( metrics: Metric[]){
+    public delete(metrics: Metric[]) {
         metrics.forEach((m: Metric) => {
             console.log("Deleting " + m.timestamp);
             this.db.del(m.timestamp);
@@ -122,4 +122,3 @@ export class MetricsHandler {
     }
 
 }
-

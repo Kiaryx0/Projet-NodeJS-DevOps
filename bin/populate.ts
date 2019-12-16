@@ -1,11 +1,11 @@
 #!/usr/bin/env ts-node
 
 import { Metric, MetricsHandler } from '../src/metrics'
-import { User, UserHandler } from '../src/users'
+import { User, UserHandler } from '../src/user'
 
 const users = [
-  new User('Louis', 'louis.deveze@edu.ece.fr' , 'Framboise'),
-  new User('Maxime','maxime.tran@edu.ece.fr' ,'Litchi'),
+  new User('Louis', 'louis.deveze@edu.ece.fr' , 'Framboise', false),
+  new User('Maxime','maxime.tran@edu.ece.fr' , 'Litchi', false),
 ]
 
 const met1 = [
@@ -37,13 +37,13 @@ dbUser.saveMany(users, (err: Error | null) => {
     console.log('Users were added to the Database')
 })
 
-dbMetrics.saveMany("maxime" ,met1, (err: Error | null) => {
+dbMetrics.saveMany("Louis", met1, (err: Error | null) => {
   if (err) throw err
   console.log('Metrics of Maxime were added to the Database')
 })
 
 
-dbMetrics.saveMany("louis" ,met2, (err: Error | null) => {
+dbMetrics.saveMany("Maxime", met2, (err: Error | null) => {
   if (err) throw err
   console.log('Metrics of Louis were added to the Database')
 })

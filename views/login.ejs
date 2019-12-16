@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include header/head %>
+</head>
+
+<div class="view">
+    <div class="mask rgba-black-strong">
+        <div class="container d-flex flex-column align-items-center">
+            <div class="col-md-4">
+                <div class="card mt-4">
+                    <div class="card-body white-text">
+                        <form action="/login" method="post">
+                            <div class="text-center">
+                                <h3>Please login to your account</h3>
+                                <hr class="hr-light" />
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-user prefix"></i>
+                                <label for="form_username" class="white-text">Username</label>
+                                <input id="form_username" type="text" name="username" class="form-control white-text" />
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-lock prefix"></i>
+                                <label for="form_password" class="white-text">Password</label>
+                                <input id="form_password" type="password" name="password"
+                                    class="form-control white-text" />
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit" value="Submit">Connect</button>
+                        </form>
+                        <hr class="hr-light" />
+                        <button class="btn btn-success btn-block" type="submit" href="/signup"
+                            onClick='document.location.href="/signup"'>
+                            Create an account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

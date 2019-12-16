@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include header/head %>
+</head>
+
+<div class="view">
+    <div class="mask rgba-black-strong">
+        <div class="container d-flex flex-column align-items-center">
+            <div class="col-md-4">
+                <div class="card mt-4">
+                    <div class="card-body white-text">
+                        <form action="/signup" method="post">
+                            <div class="text-center">
+                                <h3>Sign up</h3>
+                                <hr class="hr-light" />
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-envelope prefix"></i>
+                                <input type="email" id="email" name="email" class="form-control white-text">
+                                <label for="email" class="white-text">E-mail</label>
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-user prefix"></i>
+                                <input type="text" id="username" name="username" class="form-control white-text">
+                                <label for="username" class="white-text">Username</label>
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-lock prefix"></i>
+                                <input type="password" id="password" name="password" class="form-control white-text">
+                                <label for="password" class="white-text">Password</label>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-indigo" type="submit">Sign up</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

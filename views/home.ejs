@@ -3,8 +3,6 @@
 
 <head>
     <% include header/head %>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <script>
         // Bar Graph Function Creation
@@ -134,50 +132,53 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">MetricsJS</a>
-        <span class="navbar-text">
-            By Maxime Tran & Louis Devèze
-        </span>
-
-
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+    <div class="view">
+        <div class="mask rgba-black-strong">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                <a class="navbar-brand" href="#">MetricsJS</a>
                 <span class="navbar-text">
-                    Welcome Louis !
+                    By Maxime Tran & Louis Devèze
                 </span>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout" onClick='document.location.href="/logout"'>
-                    <i class="fas fa-power-off"></i>
-                    Log out
-                </a>
-            </li>
-        </ul>
-    </nav>
 
-    <div style="margin:50px;">
-        <div class="row">
-            <div class="col-sm-4">
-                <form action="/home/search" method="get">
-                    <div class="card" style="margin-left: 30px; margin-right: 30px;  height: 300px">
-                        <div class="card-header" style="font-weight: bold; font-size: large;">Search a Metric</div>
-                        <div class="card-body">
-                            <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Date </div>
-                                <div class="col-md-4"> <input type="date" class="form-control" name="date">
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            Welcome <%= name %>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout" onClick='document.location.href="/logout"'>
+                            <i class="fas fa-power-off"></i>
+                            Log out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div style="margin:50px;">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <form action="/home/search" method="get">
+                            <div class="card" style="margin-left: 30px; margin-right: 30px;  height: 300px">
+                                <div class="card-header" style="font-weight: bold; font-size: large;">Search a Metric
                                 </div>
-                                <div class="col-md-2" style="font-weight: bold;"> Time </div>
-                                <div class="col-md-4"> <input type="time" class="form-control" name="time">
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Value </div>
-                                <div class="col-md-10">
-                                    <% if(locals.metric){%>
-                                    <h6><%-JSON.stringify(metric.value)%></h6>
-                                    <%}%>
+                                <div class="card-body">
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-md-2" style="font-weight: bold;"> Date </div>
+                                        <div class="col-md-4"> <input type="date" class="form-control" name="date">
+                                        </div>
+                                        <div class="col-md-2" style="font-weight: bold;"> Time </div>
+                                        <div class="col-md-4"> <input type="time" class="form-control" name="time">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-md-2" style="font-weight: bold;"> Value </div>
+                                        <div class="col-md-10">
+                                            <% if(locals.metric){%>
+                                            <h6><%-JSON.stringify(metric.value)%></h6>
+                                            <%}%>
                                 </div>
                             </div>
                         </div>
@@ -233,8 +234,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-6" style="text-align: center"> <input type="submit"
-                                        class="btn btn-danger" value="Delete"> </div>
-                                        
+                                        class="btn btn-danger" value="Delete"> </div>         
                 </form>
                                 <form action="/home/deleteall" method="POST">
                                 <div class="col-md-6" style="text-align: center"> <input type="submit"
@@ -262,39 +262,40 @@
                     </div>
                     <div class="card-body">
                         <div id="dataset" data-test=<%= JSON.stringify(dataset) %>></div>
-                                <div id="metrics" style="text-align: center;"></div>
-                                <script>
-                                    var graph = new BarGraph('metrics', 400, 350, "blue", "cyan");
+                                        <div id="metrics" style="text-align: center;"></div>
+                                        <script>
+                                            var graph = new BarGraph('metrics', 400, 350, "blue", "cyan");
 
 
-                                    function update() {
-                                        let metrics = JSON.parse(document.getElementById("dataset").dataset.test);
-                                        let dates = [];
-                                        let times = [];
-                                        let values = [];
-                                        for (let i = 0; i < metrics.length; i++) {
-                                            let date = new Date(Number(metrics[i].timestamp));
-                                            let month = date.getUTCMonth() > 9 ? date.getUTCMonth() + 1 : "0" + (date.getUTCMonth() + 1);
-                                            let day = date.getUTCDate() > 9 ? date.getUTCDate() : ("0" + date.getUTCDate());
-                                            let min = date.getUTCMinutes() > 9 ? date.getUTCMinutes() : ("0" + date.getUTCMinutes());
+                                            function update() {
+                                                let metrics = JSON.parse(document.getElementById("dataset").dataset.test);
+                                                let dates = [];
+                                                let times = [];
+                                                let values = [];
+                                                for (let i = 0; i < metrics.length; i++) {
+                                                    let date = new Date(Number(metrics[i].timestamp));
+                                                    let month = date.getUTCMonth() > 9 ? date.getUTCMonth() + 1 : "0" + (date.getUTCMonth() + 1);
+                                                    let day = date.getUTCDate() > 9 ? date.getUTCDate() : ("0" + date.getUTCDate());
+                                                    let min = date.getUTCMinutes() > 9 ? date.getUTCMinutes() : ("0" + date.getUTCMinutes());
 
-                                            dates.push(day + "-" + month + "-" + date.getUTCFullYear());
-                                            times.push(date.getUTCHours() + ":" + min);
-                                            values.push(metrics[i].value);
-                                        }
-                                        graph.dates = dates;
-                                        graph.times = times;
-                                        graph.resize(document.getElementById("metrics").offsetWidth * (3 / 4), 230)
-                                        graph.draw(values);
-                                    }
-                                    window.onresize = update;
-                                    window.onload = update
-                                </script>
+                                                    dates.push(day + "-" + month + "-" + date.getUTCFullYear());
+                                                    times.push(date.getUTCHours() + ":" + min);
+                                                    values.push(metrics[i].value);
+                                                }
+                                                graph.dates = dates;
+                                                graph.times = times;
+                                                graph.resize(document.getElementById("metrics").offsetWidth * (3 / 4), 230)
+                                                graph.draw(values);
+                                            }
+                                            window.onresize = update;
+                                            window.onload = update
+                                        </script>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
                     </div>
-
-
+                </div>
 </body>
 
 </html>

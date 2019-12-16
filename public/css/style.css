@@ -1,0 +1,12 @@
+html,
+body,
+.view {
+    background-image: url('https://images.wallpaperscraft.com/image/coffee_cup_drink_137884_1920x1080.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: static;
+}
+
+.card {
+    background-color: rgba(150,150,150,0.3);
+}
