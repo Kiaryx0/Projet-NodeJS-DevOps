@@ -1,28 +1,36 @@
-# Lab 4
+# Projet-NodeJS-DevOps
 
-This folder contains Week 2 : Unit testing and Middleware lab.
+This repository contains the source code of the NodeJS and DevOps Project.
+The code was written by Louis Deveze &amp; Maxime Tran.
 
-## Prerequisites and installation
+## Content
 
-* Don't forget to install node.js
+### This Project contains the following features
 
-* To install node_modules
+* Populate a LevelDB database with two users and a few metrics for each one.
+* Authenticate using Login / Signin / Logout
+* Interact with the metrics contained in the database. CRUD operations
+* Graph visual of the metrics of a logged user
+* Security : Logged user can't see metrics of other users
 
-```bash
-#!/bin/bash
-npm install
-```
+## Step to Test the project
 
-* We use port 8080 for our work, check if you don't have any other project working in this port.
+* Clone the repository on your desktop
+* Open the project folder on Visual Studio Code
+* Create a new Terminal
+* Run the command : **npm install**
+* Run the command : **npm run populate**
+* Run the command : **npm test**
+* Run the command : **npm start**
+* Open your web Browser and connect to [http://localhost:8080](http://localhost:8080)
 
-* To use our project, just run
+## Libraries
 
-````bash
-#!/bin/bash
-npm start
-````
-
-## Use this lab
+* [Express](http://expressjs.com/) : minimalist web framework for Node.js
+* [Bootstrap 4](https://getbootstrap.com/) : CSS and Javascript toolkit for web devloppers
+* [JQuery](https://jquery.com/) : Javascript Library
+* [EJS](https://ejs.co/) : Embedded Javascript Templating
+* [LevelDB](https://github.com/google/leveldb) : Fast, Lightweight, prototyping database
 
 ## Authors
 
