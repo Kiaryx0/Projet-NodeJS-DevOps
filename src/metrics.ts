@@ -96,8 +96,6 @@ export class MetricsHandler {
             })
     }
 
-
-
     public deleteAllFrom(name: string, callback: (error: Error | null, result: any | null) => void) {
 
         let metrics: Metric[] = [];
