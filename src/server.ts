@@ -192,7 +192,7 @@ metricRouter.post('/insert/:username', (req: any, res: any) => {
 });
 
 // Delete Function Using PostMan
-metricRouter.delete('/metric/delete/:username/:timestamp', (req: any, res: any) => {
+metricRouter.delete('/delete/:username/:timestamp', (req: any, res: any) => {
     if (req.params.timestamp !== null) {
         dbMet.deleteOneFrom(req.params.username, req.params.timestamp, (err: Error | null, result: any | null) => {
             if (err) throw err
@@ -200,6 +200,16 @@ metricRouter.delete('/metric/delete/:username/:timestamp', (req: any, res: any) 
             return res.status(200).send(result);
         })
     }
+});
+
+// Delete All Function Using PostMan
+metricRouter.delete('/deleteall/:username', (req: any, res: any) => {
+    
+    dbMet.deleteAllFrom(req.params.username, (err: Error | null, result: any | null) => {
+        if (err) throw err
+        dbMet.delete(result);
+        return res.status(200).send(result);
+    })
 });
 
 // Configure Express to use EJS
