@@ -186,8 +186,11 @@ app.use('/user', userRouter);
 
 // Default page
 app.get('/', authCheck, (req: any, res: any) => {
-    res.render('home.ejs', { name: req.session.user.username });
-})
+    dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
+        if (err) throw err
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
+    })
+});
 
 // Home Page
 app.get('/home', (req: any, res: any) => {

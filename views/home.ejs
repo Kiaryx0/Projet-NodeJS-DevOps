@@ -57,10 +57,6 @@
                 context.canvas.width = chart.width;
                 context.canvas.height = chart.height;
 
-                // Draw the background color
-                context.fillStyle = chart.backgroundColor;
-                context.fillRect(0, 0, chart.width, chart.height);
-
                 // If x axis labels exist then make room	
                 if (chart.dates.length) {
                     graphAreaHeight -= 40;
@@ -105,7 +101,7 @@
                     }
 
                     // Write bar value
-                    context.fillStyle = "#333";
+                    context.fillStyle = "#ffffff";
                     context.font = "bold 16px arial";
                     context.textAlign = "center";
                     // Use try / catch to avoid error looping
@@ -117,7 +113,7 @@
                     // Draw bar label if it exists
                     if (chart.dates[i]) {
                         // Use try / catch to avoid error looping			
-                        context.fillStyle = "#333";
+                        context.fillStyle = "#ffffff";
                         context.font = "bold 12px arial";
                         context.textAlign = "center";
                         try {
@@ -135,6 +131,7 @@
     <div class="view">
         <div class="mask rgba-black-strong">
             <!-- Navbar -->
+            <header>
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <a class="navbar-brand" href="#">MetricsJS</a>
                 <span class="navbar-text">
@@ -156,26 +153,27 @@
                     </li>
                 </ul>
             </nav>
+        </header>
 
             <div style="margin:50px;">
                 <div class="row">
                     <div class="col-sm-4">
                         <form action="/home/search" method="get">
                             <div class="card" style="margin-left: 30px; margin-right: 30px;  height: 300px">
-                                <div class="card-header" style="font-weight: bold; font-size: large;">Search a Metric
+                                <div class="card-header white-text" style="font-weight: bold; font-size: large;">Search a Metric
                                 </div>
                                 <div class="card-body">
                                     <div class="row" style="margin-top:20px">
-                                        <div class="col-md-2" style="font-weight: bold;"> Date </div>
+                                        <div class="col-md-2 white-text" style="font-weight: bold;"> Date </div>
                                         <div class="col-md-4"> <input type="date" class="form-control" name="date">
                                         </div>
-                                        <div class="col-md-2" style="font-weight: bold;"> Time </div>
+                                        <div class="col-md-2 white-text" style="font-weight: bold;"> Time </div>
                                         <div class="col-md-4"> <input type="time" class="form-control" name="time">
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top:20px">
-                                        <div class="col-md-2" style="font-weight: bold;"> Value </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-2 white-text" style="font-weight: bold;"> Value </div>
+                                        <div class="col-md-10 white-text">
                                             <% if(locals.metric){%>
                                             <h6><%-JSON.stringify(metric.value)%></h6>
                                             <%}%>
@@ -194,18 +192,18 @@
             <div class="col-sm-4">
                 <form action="/home/insert" method="POST">
                     <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px">
-                        <div class="card-header" style="font-weight: bold; font-size: large;">Insert/Update a Metric
+                        <div class="card-header white-text" style="font-weight: bold; font-size: large;">Insert/Update a Metric
                         </div>
                         <div class="card-body">
                             <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Date </div>
+                                <div class="col-md-2 white-text" style="font-weight: bold;"> Date </div>
                                 <div class="col-md-4"> <input type="date" class="form-control" name="date" required> </div>
-                                <div class="col-md-2" style="font-weight: bold;"> Time </div>
+                                <div class="col-md-2 white-text" style="font-weight: bold;"> Time </div>
                                 <div class="col-md-4"> <input type="time" class="form-control" name="time" required>
                                 </div>
                             </div>
                             <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Value </div>
+                                <div class="col-md-2 white-text" style="font-weight: bold;"> Value </div>
                                 <div class="col-md-10"> <input type="number" class="form-control" name="value" required> </div>
                             </div>
                         </div>
@@ -221,12 +219,12 @@
             <div class="col-sm-4">
                 <form action="/home/delete" method="POST">
                     <div class="card" style="margin-left: 30px; margin-right: 30px; height: 300px">
-                        <div class="card-header" style="font-weight: bold; font-size: large;">Delete a Metric</div>
+                        <div class="card-header white-text" style="font-weight: bold; font-size: large;">Delete a Metric</div>
                         <div class="card-body">
                             <div class="row" style="margin-top:20px">
-                                <div class="col-md-2" style="font-weight: bold;"> Date </div>
+                                <div class="col-md-2 white-text" style="font-weight: bold;"> Date </div>
                                 <div class="col-md-4"> <input type="date" class="form-control" name="date" required> </div>
-                                <div class="col-md-2" style="font-weight: bold;"> Time </div>
+                                <div class="col-md-2 white-text" style="font-weight: bold;"> Time </div>
                                 <div class="col-md-4"> <input type="time"  class="form-control" name="time" required>
                                 </div>
                             </div>
@@ -251,7 +249,7 @@
                 <div class="card" style="margin-left: 30px; margin-right: 30px; height: 350px;">
                     <div class="card-header" style="font-weight: bold; font-size: large;">
                         <div class="row">
-                            <div class="col-sm-3">Metrics View</div>
+                            <div class="col-sm-3 white-text">Metrics View</div>
                             <div class="col-sm-6"></div>
                             <div class="col-sm-3" style="text-align: right;">
                                 <form action="/home" method="POST">
@@ -265,8 +263,6 @@
                                         <div id="metrics" style="text-align: center;"></div>
                                         <script>
                                             var graph = new BarGraph('metrics', 400, 350, "blue", "cyan");
-
-
                                             function update() {
                                                 let metrics = JSON.parse(document.getElementById("dataset").dataset.test);
                                                 let dates = [];
