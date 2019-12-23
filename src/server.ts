@@ -164,6 +164,54 @@ userRouter.delete('/:username', (req: any, res: any, next: any) => {
         })
 });
 
+// Get All Function Using PostMan
+metricRouter.get('/getall/:username', (req: any, res: any) => {
+    dbMet.loadAllFrom(req.params.username, (err: Error | null, result: any) => {
+        if (err) throw err
+        return res.status(200).send(result);
+    })
+});
+
+// Get Function Using PostMan
+metricRouter.get('/get/:username/:timestamp', (req: any, res: any) => {
+    dbMet.loadOneFrom(req.params.username, req.params.timestamp, (err: Error | null, result: any) => {
+        if (err) throw err
+        return res.status(200).send(result);
+    })
+});
+
+// Insert Function Using PostMan
+metricRouter.post('/insert/:username', (req: any, res: any) => {
+    let metrics = req.body;
+    if (metrics != null) {
+        dbMet.saveMany("username", metrics, (err: Error | null) => {
+            if (err) throw err
+            return res.status(200).send("OK");
+        })
+    }
+});
+
+// Delete Function Using PostMan
+metricRouter.delete('/delete/:username/:timestamp', (req: any, res: any) => {
+    if (req.params.timestamp !== null) {
+        dbMet.deleteOneFrom(req.params.username, req.params.timestamp, (err: Error | null, result: any | null) => {
+            if (err) throw err
+            dbMet.delete(result);
+            return res.status(200).send(result);
+        })
+    }
+});
+
+// Delete All Function Using PostMan
+metricRouter.delete('/deleteall/:username', (req: any, res: any) => {
+    
+    dbMet.deleteAllFrom(req.params.username, (err: Error | null, result: any | null) => {
+        if (err) throw err
+        dbMet.delete(result);
+        return res.status(200).send(result);
+    })
+});
+
 // Configure Express to use EJS
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
@@ -185,7 +233,6 @@ app.use('/user', userRouter);
 app.use('/metric', metricRouter);
 
 
-
 // Default page
 app.get('/', authCheck, (req: any, res: any) => {
     dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
@@ -201,14 +248,6 @@ app.get('/home', (req: any, res: any) => {
         return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
     })
 })
-
-// Get All Function Using PostMan
-metricRouter.get('/metric/getall/:username', (req: any, res: any) => {
-    dbMet.loadAllFrom(req.params.username, (err: Error | null, result: any) => {
-        if (err) throw err
-        return res.status(200).send(result);
-    })
-});
 
 // Search Function 
 app.get('/home/search', (req: any, res: any) => {
@@ -233,26 +272,6 @@ app.get('/home/search', (req: any, res: any) => {
     })
 })
 
-// Get Function Using PostMan
-metricRouter.get('/metric/get/:username/:timestamp', (req: any, res: any) => {
-    dbMet.loadOneFrom(req.params.username, req.params.timestamp, (err: Error | null, result: any) => {
-        if (err) throw err
-        return res.status(200).send(result);
-    })
-});
-
-
-// Insert Function Using PostMan
-metricRouter.post('/metric/insert/:username', (req: any, res: any) => {
-    let metrics = req.body;
-    if (metrics != null) {
-        dbMet.saveMany("username", metrics, (err: Error | null) => {
-            if (err) throw err
-            return res.status(200).send("OK");
-        })
-    }
-});
-
 // Insert Function
 app.post('/home/insert', (req: any, res: any) => {
     let str = req.body.date + " " + req.body.time + " UTC";
@@ -265,7 +284,6 @@ app.post('/home/insert', (req: any, res: any) => {
         })
     }
 });
-
 
 // Delete Function
 app.post('/home/delete', (req: any, res: any) => {
@@ -280,17 +298,6 @@ app.post('/home/delete', (req: any, res: any) => {
     }
 })
 
-// Delete Function Using PostMan
-metricRouter.delete('/metric/delete/:username/:timestamp', (req: any, res: any) => {
-    if (req.params.timestamp !== null) {
-        dbMet.deleteOneFrom(req.params.username, req.params.timestamp, (err: Error | null, result: any | null) => {
-            if (err) throw err
-            dbMet.delete(result);
-            return res.status(200).send(result);
-        })
-    }
-});
-
 // Delete Function
 app.post('/home/deleteall', (req: any, res: any) => {
     let str = req.body.date + " " + req.body.time + " UTC";
@@ -303,17 +310,6 @@ app.post('/home/deleteall', (req: any, res: any) => {
         })
     }
 })
-
-
-// Delete All Function Using PostMan
-metricRouter.delete('/metric/deleteall/:username', (req: any, res: any) => {
-    
-    dbMet.deleteAllFrom(req.params.username, (err: Error | null, result: any | null) => {
-        if (err) throw err
-        dbMet.delete(result);
-        return res.status(200).send(result);
-    })
-});
 
 // Use port 8080 for our project
 app.listen(port, () => {
