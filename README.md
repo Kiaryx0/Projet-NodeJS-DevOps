@@ -18,6 +18,7 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Clone the repository on your desktop
 * Open the project folder on Visual Studio Code
 * Create a new Terminal
+* Create a folder named "db" in the root
 * Run the command : **npm install**
 * Run the command : **npm run populate**
 * Run the command : **npm test**
