@@ -4,11 +4,11 @@
   "description": "Unit testing Lab",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts",
-    "populate": "./node_modules/.bin/ts-node bin/populate.ts",
-    "start": "./node_modules/.bin/ts-node src/server.ts",
-    "dev": "./node_modules/.bin/nodemon",
-    "build": "./node_modules/.bin/tsc -p tsconfig.json"
+    "test": "mocha -r ts-node/register src/**/*.test.ts",
+    "populate": "ts-node bin/populate.ts",
+    "start": "ts-node src/server.ts",
+    "dev": "nodemon",
+    "build": "tsc -p tsconfig.json"
   },
   "author": "Maxime TRAN and Louis DEVEZE",
   "license": "ISC",
@@ -41,5 +41,13 @@
     "nodemon": "^1.19.4",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LouisDeveze/Projet-NodeJS-DevOps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LouisDeveze/Projet-NodeJS-DevOps/issues"
+  },
+  "homepage": "https://github.com/LouisDeveze/Projet-NodeJS-DevOps#readme"
 }

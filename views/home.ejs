@@ -2,103 +2,103 @@
 <html lang="en">
 
 <head>
-    <% include header/head %>
+  <% include header/head %>
 
-    <script>
-        // Bar Graph Function Creation
-        // Creates a new Bar Graph using the data provided 
-        // Into the context object given as argument
-        function BarGraph(div, width, height, color, gcolor) {
+  <script>
+    // Bar Graph Function Creation
+    // Creates a new Bar Graph using the data provided 
+    // Into the context object given as argument
+    function BarGraph(div, width, height, color, gcolor) {
 
-            // Creating the context of the graph #1
-            var div = document.getElementById(div);
-            var canvas = document.createElement('canvas');
-            div.appendChild(canvas);
-            var context = canvas.getContext("2d");
+      // Creating the context of the graph #1
+      var div = document.getElementById(div);
+      var canvas = document.createElement('canvas');
+      div.appendChild(canvas);
+      var context = canvas.getContext("2d");
 
-            // Private properties and methods
-            var chart = this;
-            chart.width = width;
-            chart.height = height;
-            chart.margin = 5;
-            // Colors
-            chart.color = color;
-            chart.gradientColor = gcolor;
-            chart.backgroundColor = "#fff";
-            // Data
-            chart.dates = [];
-            chart.times = [];
+      // Private properties and methods
+      var chart = this;
+      chart.width = width;
+      chart.height = height;
+      chart.margin = 5;
+      // Colors
+      chart.color = color;
+      chart.gradientColor = gcolor;
+      chart.backgroundColor = "#fff";
+      // Data
+      chart.dates = [];
+      chart.times = [];
 
-            this.resize = function (width, height) {
-                chart.width = width;
-                chart.height = height;
-                context.width = width;
-                context.height = height;
-            }
+      this.resize = function (width, height) {
+        chart.width = width;
+        chart.height = height;
+        context.width = width;
+        context.height = height;
+      }
 
-            // Draw method updates the canvas with the current display
-            this.draw = function (arr) {
+      // Draw method updates the canvas with the current display
+      this.draw = function (arr) {
 
-                let numOfBars = arr.length;
-                let barWidth;
-                let barHeight;
-                let border = 2;
-                let ratio;
-                let maxBarHeight;
-                let gradient;
-                let graphAreaX = 0;
-                let graphAreaY = 0;
-                let graphAreaWidth = chart.width;
-                let graphAreaHeight = chart.height;
-                var i;
-                var largestValue;
+        let numOfBars = arr.length;
+        let barWidth;
+        let barHeight;
+        let border = 2;
+        let ratio;
+        let maxBarHeight;
+        let gradient;
+        let graphAreaX = 0;
+        let graphAreaY = 0;
+        let graphAreaWidth = chart.width;
+        let graphAreaHeight = chart.height;
+        var i;
+        var largestValue;
 
-                // Set Canva width & height
-                context.canvas.width = chart.width;
-                context.canvas.height = chart.height;
+        // Set Canva width & height
+        context.canvas.width = chart.width;
+        context.canvas.height = chart.height;
 
                 // If x axis labels exist then make room	
                 if (chart.dates.length) {
                     graphAreaHeight -= 40;
                 }
 
-                // Calculate dimensions of the bar
-                barWidth = graphAreaWidth / numOfBars - chart.margin * 2;
-                maxBarHeight = graphAreaHeight - 25;
+        // Calculate dimensions of the bar
+        barWidth = graphAreaWidth / numOfBars - chart.margin * 2;
+        maxBarHeight = graphAreaHeight - 25;
 
-                // Determine the largest value in the bar array
-                largestValue = 0;
-                for (i = 0; i < arr.length; i += 1) {
-                    if (arr[i] > largestValue) {
-                        largestValue = arr[i];
-                    }
-                }
+        // Determine the largest value in the bar array
+        largestValue = 0;
+        for (i = 0; i < arr.length; i += 1) {
+          if (arr[i] > largestValue) {
+            largestValue = arr[i];
+          }
+        }
 
-                // For each bar
-                for (i = 0; i < arr.length; i += 1) {
-                    // Set the ratio of current bar compared to the maximum
-                    ratio = arr[i] / largestValue;
-                    barHeight = ratio * maxBarHeight;
+        // For each bar
+        for (i = 0; i < arr.length; i += 1) {
+          // Set the ratio of current bar compared to the maximum
+          ratio = arr[i] / largestValue;
+          barHeight = ratio * maxBarHeight;
 
 
-                    // Draw bar background
-                    context.fillStyle = "#333";
-                    context.fillRect(chart.margin + i * chart.width / numOfBars, graphAreaHeight - barHeight, barWidth, barHeight);
+          // Draw bar background
+          context.fillStyle = "#333";
+          context.fillRect(chart.margin + i * chart.width / numOfBars, graphAreaHeight - barHeight, barWidth, barHeight);
 
-                    // Draw bar color if it is large enough to be visible
-                    if (barHeight > border * 2) {
-                        // Create gradient
-                        gradient = context.createLinearGradient(0, 0, 0, graphAreaHeight);
-                        gradient.addColorStop(1 - ratio, chart.color);
-                        gradient.addColorStop(1, chart.gradientColor);
+          // Draw bar color if it is large enough to be visible
+          if (barHeight > border * 2) {
+            // Create gradient
+            gradient = context.createLinearGradient(0, 0, 0, graphAreaHeight);
+            gradient.addColorStop(1 - ratio, chart.color);
+            gradient.addColorStop(1, chart.gradientColor);
 
-                        context.fillStyle = gradient;
-                        // Fill rectangle with gradient
-                        context.fillRect(chart.margin + i * chart.width / numOfBars + border,
-                            graphAreaHeight - barHeight + border,
-                            barWidth - border * 2,
-                            barHeight - border * 2);
-                    }
+            context.fillStyle = gradient;
+            // Fill rectangle with gradient
+            context.fillRect(chart.margin + i * chart.width / numOfBars + border,
+              graphAreaHeight - barHeight + border,
+              barWidth - border * 2,
+              barHeight - border * 2);
+          }
 
                     // Write bar value
                     context.fillStyle = "#ffffff";
@@ -123,8 +123,8 @@
                     }
                 }
             };
-        }
-    </script>
+      }
+  </script>
 </head>
 
 <body>
@@ -177,6 +177,7 @@
                                             <% if(locals.metric){%>
                                             <h6><%-JSON.stringify(metric.value)%></h6>
                                             <%}%>
+
                                 </div>
                             </div>
                         </div>
@@ -274,24 +275,24 @@
                                                     let day = date.getUTCDate() > 9 ? date.getUTCDate() : ("0" + date.getUTCDate());
                                                     let min = date.getUTCMinutes() > 9 ? date.getUTCMinutes() : ("0" + date.getUTCMinutes());
 
-                                                    dates.push(day + "-" + month + "-" + date.getUTCFullYear());
-                                                    times.push(date.getUTCHours() + ":" + min);
-                                                    values.push(metrics[i].value);
-                                                }
-                                                graph.dates = dates;
-                                                graph.times = times;
-                                                graph.resize(document.getElementById("metrics").offsetWidth * (3 / 4), 230)
-                                                graph.draw(values);
-                                            }
-                                            window.onresize = update;
-                                            window.onload = update
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-
-                    </div>
+                          dates.push(day + "-" + month + "-" + date.getUTCFullYear());
+                          times.push(date.getUTCHours() + ":" + min);
+                          values.push(metrics[i].value);
+                        }
+                        graph.dates = dates;
+                        graph.times = times;
+                        graph.resize(document.getElementById("metrics").offsetWidth * (3 / 4), 230)
+                        graph.draw(values);
+                      }
+                      window.onresize = update;
+                      window.onload = update
+                    </script>
+                  </div>
                 </div>
+              </div>
+
+          </div>
+        </div>
 </body>
 
 </html>
