@@ -17,33 +17,26 @@ var MetricsHandler = /** @class */ (function () {
     function MetricsHandler(dbPath) {
         this.db = leveldb_1.LevelDB.open(dbPath);
     }
-    MetricsHandler.prototype.save = function (name, metrics, callback) {
+    MetricsHandler.prototype.close = function () {
+        this.db.close();
+    };
+    MetricsHandler.prototype.save = function (key, timestamp, value, callback) {
+        var stream = level_ws_1.default(this.db);
+        stream.on('error', callback);
+        stream.on('close', callback);
+        stream.write({ key: "metric:" + key + ":" + timestamp, value: Number(value) });
+        stream.end();
+    };
+    MetricsHandler.prototype.saveMany = function (key, metrics, callback) {
         var stream = level_ws_1.default(this.db);
         stream.on('error', callback);
         stream.on('close', callback);
         metrics.forEach(function (m) {
-            stream.write({ key: "metric:" + name + ":" + m.timestamp, value: m.value });
+            stream.write({ key: "metric:" + key + ":" + m.timestamp, value: m.value });
         });
         stream.end();
     };
-    MetricsHandler.prototype.loadAllMetrics = function (callback) {
-        var metrics = [];
-        this.db.createReadStream()
-            .on('data', function (data) {
-            var key = data.key.split(":");
-            metrics.push(new Metric(key[2], data.value));
-        })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
-        })
-            .on('close', function () { })
-            .on('end', function () {
-            console.log('Stream ended');
-            callback(null, metrics);
-        });
-    };
-    MetricsHandler.prototype.loadAllMetricsFrom = function (name, callback) {
+    MetricsHandler.prototype.loadAllFrom = function (name, callback) {
         var metrics = [];
         this.db.createReadStream()
             .on('data', function (data) {
@@ -52,16 +45,12 @@ var MetricsHandler = /** @class */ (function () {
                 metrics.push(new Metric(key[2], data.value));
             }
         })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
-        })
             .on('close', function () { })
             .on('end', function () {
             callback(null, metrics);
         });
     };
-    MetricsHandler.prototype.loadOneMetricFrom = function (name, timestamp, callback) {
+    MetricsHandler.prototype.loadOneFrom = function (name, timestamp, callback) {
         var metrics = [];
         this.db.createReadStream()
             .on('data', function (data) {
@@ -70,53 +59,17 @@ var MetricsHandler = /** @class */ (function () {
                 metrics.push(new Metric(key[2], data.value));
             }
         })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
-        })
             .on('close', function () { })
             .on('end', function () {
-            console.log('Stream ended');
-            callback(null, metrics);
-        });
-    };
-    MetricsHandler.prototype.deleteAllMetrics = function (callback) {
-        var metrics = [];
-        this.db.createReadStream()
-            .on('data', function (data) {
-            var key = data.key.split(":");
-            metrics.push(new Metric(data.key, data.value));
-        })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
-        })
-            .on('close', function () { })
-            .on('end', function () {
-            console.log('Stream ended');
-            callback(null, metrics);
-        });
-    };
-    MetricsHandler.prototype.deleteAllMetricsFrom = function (name, callback) {
-        var metrics = [];
-        this.db.createReadStream()
-            .on('data', function (data) {
-            var key = data.key.split(":");
-            if (key[1] === name) {
-                metrics.push(new Metric(data.key, data.value));
+            if (metrics.length === 1) {
+                callback(null, metrics[0]);
             }
-        })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
-        })
-            .on('close', function () { })
-            .on('end', function () {
-            console.log('Stream ended');
-            callback(null, metrics);
+            else {
+                callback(null, null);
+            }
         });
     };
-    MetricsHandler.prototype.deleteOneMetricFrom = function (name, timestamp, callback) {
+    MetricsHandler.prototype.deleteOneFrom = function (name, timestamp, callback) {
         var metrics = [];
         this.db.createReadStream()
             .on('data', function (data) {
@@ -125,13 +78,22 @@ var MetricsHandler = /** @class */ (function () {
                 metrics.push(new Metric(data.key, data.value));
             }
         })
-            .on('error', function (err) {
-            console.log('Oh my!', err);
-            callback(err, null);
+            .on('close', function () { })
+            .on('end', function () {
+            callback(null, metrics);
+        });
+    };
+    MetricsHandler.prototype.deleteAllFrom = function (name, callback) {
+        var metrics = [];
+        this.db.createReadStream()
+            .on('data', function (data) {
+            var key = data.key.split(":");
+            if (key[1] === name) {
+                metrics.push(new Metric(data.key, data.value));
+            }
         })
             .on('close', function () { })
             .on('end', function () {
-            console.log('Stream ended');
             callback(null, metrics);
         });
     };
