@@ -18,6 +18,7 @@ var dbMet = new metrics_1.MetricsHandler('./db/metrics');
 var dbUser = new user_1.UserHandler('./db/users');
 var authRouter = express.Router();
 var userRouter = express.Router();
+var metricRouter = express.Router();
 // Check if user is logged in
 var authCheck = function (req, res, next) {
     if (req.session.loggedIn) {
@@ -85,12 +86,6 @@ authRouter.post('/signup', function (req, res, next) {
                 console.log("User has been registered.");
                 req.session.loggedIn = true;
                 req.session.user = newUser_1;
-                var met = [new metrics_1.Metric("" + new Date().getTime(), 0)];
-                dbMet.saveMany(req.session.user.username, met, function (err) {
-                    if (err)
-                        throw err;
-                    console.log('Default metrics saved');
-                });
                 res.redirect('/');
             })
                 .catch(function (err) {
@@ -172,6 +167,53 @@ userRouter.delete('/:username', function (req, res, next) {
         res.status(409).send("User doesn't exist!");
     });
 });
+// Get All Function Using PostMan
+metricRouter.get('/getall/:username', function (req, res) {
+    dbMet.loadAllFrom(req.params.username, function (err, result) {
+        if (err)
+            throw err;
+        return res.status(200).send(result);
+    });
+});
+// Get Function Using PostMan
+metricRouter.get('/get/:username/:timestamp', function (req, res) {
+    dbMet.loadOneFrom(req.params.username, req.params.timestamp, function (err, result) {
+        if (err)
+            throw err;
+        return res.status(200).send(result);
+    });
+});
+// Insert Function Using PostMan
+metricRouter.post('/insert/:username', function (req, res) {
+    var metrics = req.body;
+    if (metrics != null) {
+        dbMet.saveMany("username", metrics, function (err) {
+            if (err)
+                throw err;
+            return res.status(200).send("OK");
+        });
+    }
+});
+// Delete Function Using PostMan
+metricRouter.delete('/delete/:username/:timestamp', function (req, res) {
+    if (req.params.timestamp !== null) {
+        dbMet.deleteOneFrom(req.params.username, req.params.timestamp, function (err, result) {
+            if (err)
+                throw err;
+            dbMet.delete(result);
+            return res.status(200).send(result);
+        });
+    }
+});
+// Delete All Function Using PostMan
+metricRouter.delete('/deleteall/:username', function (req, res) {
+    dbMet.deleteAllFrom(req.params.username, function (err, result) {
+        if (err)
+            throw err;
+        dbMet.delete(result);
+        return res.status(200).send(result);
+    });
+});
 // Configure Express to use EJS
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
@@ -188,9 +230,14 @@ app.use(express_session_1.default({
 }));
 app.use(authRouter);
 app.use('/user', userRouter);
+app.use('/metric', metricRouter);
 // Default page
 app.get('/', authCheck, function (req, res) {
-    res.render('home.ejs', { name: req.session.user.username });
+    dbMet.loadAllFrom(req.session.user.username, function (err, result) {
+        if (err)
+            throw err;
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
+    });
 });
 // Home Page
 app.get('/home', function (req, res) {
@@ -217,11 +264,11 @@ app.get('/home/search', function (req, res) {
                 if (err)
                     throw err;
                 search = result;
-                return res.status(200).render('home.ejs', { metric: search, dataset: dataset });
+                return res.status(200).render('home.ejs', { metric: search, dataset: dataset, name: req.session.user.username });
             });
         }
         else {
-            return res.status(200).render('home.ejs', { dataset: dataset });
+            return res.status(200).render('home.ejs', { dataset: dataset, name: req.session.user.username });
         }
     });
 });

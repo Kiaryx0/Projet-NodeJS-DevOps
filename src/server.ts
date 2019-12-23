@@ -5,6 +5,7 @@ import bodyparser = require('body-parser');
 import session from 'express-session';
 import levelSession from 'level-session-store';
 import { UserHandler, User } from './user';
+import url from 'url';
 
 const app = express();
 const port: string = process.env.PORT || '8080';
@@ -244,30 +245,43 @@ app.get('/', authCheck, (req: any, res: any) => {
 // Home Page
 app.get('/home', (req: any, res: any) => {
     dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
-        if (err) throw err
+        if (err) throw err;
+        let metricSearched = req.query.metric;
+        if (metricSearched !== undefined){
+            return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, metric: metricSearched, date: req.query.date, time: req.query.time});
+        }
+        else {
         return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
+        }
     })
 })
 
 // Search Function 
 app.get('/home/search', (req: any, res: any) => {
-    // Result of the request
-    var search = null;
-    var dataset = null;
     // Getting the data
     let str = req.query['date'] + " " + req.query['time'] + " UTC";
     let date = new Date(str).getTime();
     dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
-        if (err) throw err
-        dataset = result;
+        if (err) throw err;
         if (date !== null) {
             dbMet.loadOneFrom(req.session.user.username, date, (err: Error | null, result: any) => {
                 if (err) throw err
-                search = result;
-                return res.status(200).render('home.ejs', { metric: search, dataset: dataset, name: req.session.user.username  });
+                if (result !== null) {
+                let value: number = result.value;
+                return res.status(200).redirect(url.format({
+                    pathname:"/home",
+                    query: {
+                        "metric":value,
+                        "date":req.query['date'],
+                        "time":req.query['time']
+                    }
+                }))
+            } else {
+                return res.status(200).redirect("/home");
+            }
             })
         } else {
-            return res.status(200).render('home.ejs', {  dataset: dataset, name: req.session.user.username  });
+            return res.status(200).redirect("/home");
         }
     })
 })
@@ -276,7 +290,7 @@ app.get('/home/search', (req: any, res: any) => {
 app.post('/home/insert', (req: any, res: any) => {
     let str = req.body.date + " " + req.body.time + " UTC";
     let date = new Date(str).getTime();
-    let value = req.body.value
+    let value = req.body.value;
     if (date !== null && value !== null) {
         dbMet.save(req.session.user.username, date, value, (err: Error | null) => {
             if (err) throw err

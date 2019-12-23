@@ -135,7 +135,7 @@
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <a class="navbar-brand" href="#">MetricsJS</a>
                 <span class="navbar-text">
-                    By Maxime Tran & Louis Devèze
+                    By Maxime Tran, Louis Devèze & Sebastien Ye
                 </span>
 
 
@@ -165,19 +165,16 @@
                                 <div class="card-body">
                                     <div class="row" style="margin-top:20px">
                                         <div class="col-md-2 white-text" style="font-weight: bold;"> Date </div>
-                                        <div class="col-md-4"> <input type="date" class="form-control" name="date">
-                                        </div>
+                                        <div class="col-md-4"> <input type="date" class="form-control" name="date" value=<%= date %>> </div>
                                         <div class="col-md-2 white-text" style="font-weight: bold;"> Time </div>
-                                        <div class="col-md-4"> <input type="time" class="form-control" name="time">
-                                        </div>
+                                        <div class="col-md-4"> <input type="time" class="form-control" name="time" value=<%= time %>> </div>
                                     </div>
                                     <div class="row" style="margin-top:20px">
                                         <div class="col-md-2 white-text" style="font-weight: bold;"> Value </div>
                                         <div class="col-md-10 white-text">
                                             <% if(locals.metric){%>
-                                            <h6><%-JSON.stringify(metric.value)%></h6>
+                                            <h6><%= metric %></h6>
                                             <%}%>
-
                                 </div>
                             </div>
                         </div>
