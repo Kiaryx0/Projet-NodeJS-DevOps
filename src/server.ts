@@ -264,10 +264,10 @@ app.get('/home/search', (req: any, res: any) => {
             dbMet.loadOneFrom(req.session.user.username, date, (err: Error | null, result: any) => {
                 if (err) throw err
                 search = result;
-                return res.status(200).render('home.ejs', { metric: search, dataset: dataset });
+                return res.status(200).render('home.ejs', { metric: search, dataset: dataset, name: req.session.user.username  });
             })
         } else {
-            return res.status(200).render('home.ejs', {  dataset: dataset });
+            return res.status(200).render('home.ejs', {  dataset: dataset, name: req.session.user.username  });
         }
     })
 })
