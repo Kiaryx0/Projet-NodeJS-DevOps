@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "v12.13.0"
 os: windows
-script: npm install && npm run populate && npm start
+script: npm install && npm run populate && npm test
