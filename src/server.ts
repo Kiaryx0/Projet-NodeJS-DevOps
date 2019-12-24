@@ -238,7 +238,7 @@ app.use('/metric', metricRouter);
 app.get('/', authCheck, (req: any, res: any) => {
     dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
         if (err) throw err
-        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, date: req.query.date, time: req.query.time });
     })
 });
 
@@ -251,7 +251,7 @@ app.get('/home', (req: any, res: any) => {
             return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, metric: metricSearched, date: req.query.date, time: req.query.time});
         }
         else {
-        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, date: req.query.date, time: req.query.time });
         }
     })
 })
