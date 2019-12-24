@@ -53,6 +53,10 @@ export class MetricsHandler {
                     metrics.push(new Metric(key[2], data.value))
                 }
             })
+            .on('error', function (err) {
+                console.log('Oh my!', err);
+                callback(err, null);
+            })
             .on('close', function () { })
             .on('end', function () {
                 callback(null, metrics);
@@ -68,6 +72,10 @@ export class MetricsHandler {
                 if (key[1] === name && key[2] === timestamp.toString()) {
                     metrics.push(new Metric(key[2], data.value))
                 }
+            })
+            .on('error', function (err) {
+                console.log('Oh my!', err);
+                callback(err, null);
             })
             .on('close', function () { })
             .on('end', function () {
@@ -90,6 +98,10 @@ export class MetricsHandler {
                     metrics.push(new Metric(data.key, data.value))
                 }
             })
+            .on('error', function (err) {
+                console.log('Oh my!', err);
+                callback(err, null);
+            })
             .on('close', function () { })
             .on('end', function () {
                 callback(null, metrics);
@@ -105,6 +117,10 @@ export class MetricsHandler {
                 if (key[1] === name) {
                     metrics.push(new Metric(data.key, data.value))
                 }
+            })
+            .on('error', function (err) {
+                console.log('Oh my!', err);
+                callback(err, null);
             })
             .on('close', function () { })
             .on('end', function () {
