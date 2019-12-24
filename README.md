@@ -30,10 +30,10 @@ npm install --global --production windows-build-tools
 
 2. #### Warning
 If you are using Linux or MacOS, you have to create:
-  * db folder
-  * metrics folder inside db folder
-  * users folder inside db folder
-  * session folder inside db folder
+  - db folder
+  - metrics folder inside db folder
+  - users folder inside db folder
+  - session folder inside db folder
 
 * Run the command : **npm run populate**
 * Run the command : **npm test**
