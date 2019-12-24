@@ -22,11 +22,13 @@ export class User {
 
   }
 
+  // Formatting db data for User class
   static fromDb(username: string, value: any): User {
     const [password, email, notHashedPassword] = value.split(":");
     return new User(username, email, password, true, notHashedPassword);
   }
 
+  // Function to hash password
   public hashPassword(toHash: string) {
     // Hash password
     return new Promise((resolve, reject) => {
@@ -55,6 +57,7 @@ export class User {
     return this.notHashedPassword;
   }
 
+  // Function to validate password
   public validatePassword(toValidate: string) {
     // return comparison with hashed password
     return new Promise((resolve, reject) => {
@@ -123,13 +126,18 @@ export class UserHandler {
   }
 
   // Save a user in db
-  public save(user: User, callback: (err: Error | null) => void) {
-    this.db.put(`user:${user.username}`, `${user.getPassword()}:${user.email}:${user.getNotHashedPassword()}`, (err: Error | null) => {
-      if (err) callback(err);
+  public save(user: User) {
+    return new Promise((resolve, reject) => {
+      this.db.put(`user:${user.username}`, `${user.getPassword()}:${user.email}:${user.getNotHashedPassword()}`, (err: Error | null) => {
+        if (err) {
+          console.log("Error while saving", err);
+          reject(err);
+        }
+      });
     });
   }
 
-  // Used to populate default database
+  // Used to populate default database, not used in API
   public saveMany(users: User[], callback: (error: Error | null) => void) {
     users.forEach((u: User) => {
       u.hashPassword(u.getPassword())
@@ -149,11 +157,9 @@ export class UserHandler {
         if (error) {
           console.log("Error while deleting", error);
           reject(error);
-        } else {
-          console.log("User has been deleted.");
         }
       });
-    })
+    });
   }
 
 }
