@@ -38,7 +38,7 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Delete a specific metric from user Louis [http://localhost:8080/metric/delete/Louis/1383315300000](http://localhost:8080/metric/delete/Louis/1383315300000)
 * Get all metrics from Louis in database [http://localhost:8080/metric/getall/Louis](http://localhost:8080/metric/getall/Louis)
 * Get a specific metric from Louis [http://localhost:8080/metric/get/Louis/1383314400000](http://localhost:8080/metric/get/Louis/1383314400000)
-* Post metrics for Louis [http://localhost:8080/metric/insert/Louis](http://localhost:8080/metric/insert/Louis]
+* Post metrics for Louis [http://localhost:8080/metric/insert/Louis](http://localhost:8080/metric/insert/Louis])
   with body : [ 
                 { "timestamp":"1384686660003", "value":63 },
                 { "timestamp":"1384686660004", "value":15 }, 
