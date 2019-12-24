@@ -76,7 +76,7 @@ describe('Metrics', function () {
     it('should not fail if data does not exist', function () {
       dbMet.deleteAllFrom("1", function(err: Error | null, result: any) {
         expect(err).to.be.null;
-        expect(result).to.be.empty;
+        expect(result, "Object to delete should be empty for unknown user").to.be.empty;
         dbMet.delete(result);
         expect(err).to.be.null;
         expect(result).to.be.empty;

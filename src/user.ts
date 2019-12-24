@@ -115,7 +115,6 @@ export class UserHandler {
           users.push(newUser);
         })
         .on('error', function (err: Error | null) {
-          console.log('Oh my!', err)
           reject(err);
         })
         .on('close', function () { })
@@ -139,15 +138,17 @@ export class UserHandler {
 
   // Used to populate default database, not used in API
   public saveMany(users: User[], callback: (error: Error | null) => void) {
+    var error = null;
     users.forEach((u: User) => {
       u.hashPassword(u.getPassword())
         .then((hash: string) => {
           u.setPassword(hash);
           this.db.put(`user:${u.username}`, `${u.getPassword()}:${u.email}:${u.getNotHashedPassword()}`, (err: Error | null) => {
-            if (err) callback(err);
+            if(err) error = err;
           });
         })
     })
+    callback(error);
   }
 
   // Delete user from db
