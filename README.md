@@ -19,6 +19,7 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Clone the repository on your desktop
 * Open the project folder on Visual Studio Code
 * Create a new Terminal
+
 **Warning**
 If you are using a Windows OS, you have to run this command first : 
 ```
