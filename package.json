@@ -4,7 +4,7 @@
   "description": "Unit testing Lab",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register src/**/*.test.ts",
+    "test": "ts-node bin/populate.ts && mocha -r ts-node/register src/**/*.test.ts",
     "populate": "ts-node bin/populate.ts",
     "start": "ts-node src/server.ts",
     "dev": "nodemon",

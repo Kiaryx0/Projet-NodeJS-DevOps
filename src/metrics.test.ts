@@ -54,7 +54,7 @@ describe('Metrics', function () {
           expect(err).to.be.null;
           expect(result).to.not.be.undefined;
           expect(result).to.be.an.instanceOf(Array);
-          expect(result[0].value).to.be.equal(7);
+          expect(result[0].value, "You should have a value of 7").to.be.equal(7);
         })
       })
     })
