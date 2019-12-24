@@ -24,6 +24,27 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Run the command : **npm start**
 * Open your web Browser and connect to [http://localhost:8080](http://localhost:8080)
 
+## API Testing (POSTMAN) 
+
+#### Users
+* Get all users in database [http://localhost:8080/user/admin/allusers](http://localhost:8080/user/admin/allusers)
+* Get a specific user in the database [http://localhost:8080/user/Louis](http://localhost:8080/user/Louis)
+* Delete a specific user in the database [http://localhost:8080/user/Louis](http://localhost:8080/user/Louis)
+* Post user in the database [http://localhost:8080/user](http://localhost:8080/user)
+  with body : ['Louis', 'louis.deveze@edu.ece.fr', 'Framboise', false]
+
+#### Metrics
+* Delete all metrics from user Louis [http://localhost:8080/metric/deleteall/Louis]()
+* Delete a specific metric from user Louis [http://localhost:8080/metric/delete/Louis/1383315300000](http://localhost:8080/metric/delete/Louis/1383315300000)
+* Get all metrics from Louis in database [http://localhost:8080/metric/getall/Louis](http://localhost:8080/metric/getall/Louis)
+* Get a specific metric from Louis [http://localhost:8080/metric/get/Louis/1383314400000](http://localhost:8080/metric/get/Louis/1383314400000)
+* Post metrics for Louis [http://localhost:8080/metric/insert/Louis](http://localhost:8080/metric/insert/Louis]
+  with body : [ 
+                { "timestamp":"1384686660003", "value":63 },
+                { "timestamp":"1384686660004", "value":15 }, 
+                { "timestamp":"1384686660005", "value":98}
+              ]
+
 ## Libraries
 
 * [Express](http://expressjs.com/) : minimalist web framework for Node.js
