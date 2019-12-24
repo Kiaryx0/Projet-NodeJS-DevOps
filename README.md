@@ -1,4 +1,5 @@
-# Projet-NodeJS-DevOps               
+# Projet-NodeJS-DevOps
+
 The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 
 ### Travis Build : ![Travis Build](https://travis-ci.com/LouisDeveze/Projet-NodeJS-DevOps.svg?branch=master) 
@@ -18,6 +19,13 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Clone the repository on your desktop
 * Open the project folder on Visual Studio Code
 * Create a new Terminal
+<div class="panel panel-warning">
+**Warning**
+If you are using a Windows OS, you have to run this command first : 
+```
+npm install --global --production windows-build-tools
+```
+</div>
 * Run the command : **npm install**
 * Run the command : **npm run populate**
 * Run the command : **npm test**
@@ -27,6 +35,7 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 ## API Testing (POSTMAN) 
 
 #### Users
+
 * Get all users in database [http://localhost:8080/user/admin/allusers](http://localhost:8080/user/admin/allusers)
 * Get a specific user in the database [http://localhost:8080/user/Louis](http://localhost:8080/user/Louis)
 * Delete a specific user in the database [http://localhost:8080/user/Louis](http://localhost:8080/user/Louis)
@@ -34,6 +43,7 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
   with body : ['Louis', 'louis.deveze@edu.ece.fr', 'Framboise', false]
 
 #### Metrics
+
 * Delete all metrics from user Louis [http://localhost:8080/metric/deleteall/Louis]()
 * Delete a specific metric from user Louis [http://localhost:8080/metric/delete/Louis/1383315300000](http://localhost:8080/metric/delete/Louis/1383315300000)
 * Get all metrics from Louis in database [http://localhost:8080/metric/getall/Louis](http://localhost:8080/metric/getall/Louis)
