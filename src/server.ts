@@ -79,9 +79,8 @@ authRouter.post('/signup', (req: any, res: any, next: any) => {
                 newUser.hashPassword(newUser.getPassword())
                     .then((hash: string) => {
                         newUser.setPassword(hash);
-                        dbUser.save(newUser, (err: Error | null) => {
-                            if (err) next(err);
-                        });
+                        dbUser.save(newUser)
+                        .catch((err) => { next(err) })
                         console.log("User has been registered.");
                         req.session.loggedIn = true;
                         req.session.user = newUser;
@@ -106,12 +105,11 @@ userRouter.post('/', (req: any, res: any, next: any) => {
             if (result !== undefined) {
             res.status(409).send("User already exists!");
             } else {
-                let newUser: User = new User(req.body.username, req.body.email, req.body.password);
-                dbUser.save(newUser, function (err: Error | null) {
-                    if (err) {
-                        console.log("Saving error", err);
-                        next (err);
-                    }
+                let newUser: User = new User(req.body.username, req.body.email, req.body.password, false);
+                dbUser.save(newUser)
+                .catch((err) => { 
+                    console.log("Saving error", err);
+                    next(err);
                 })
                 res.status(201).send("User has been created!");
             }
@@ -217,7 +215,7 @@ metricRouter.delete('/deleteall/:username', (req: any, res: any) => {
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 app.use(bodyparser.json())
-app.use(bodyparser.urlencoded())
+app.use(bodyparser.urlencoded({ extended: true }))
 
 // Configure Express to serve static files in the public folder
 app.use(express.static(path.join(__dirname, '../public')));
@@ -238,7 +236,7 @@ app.use('/metric', metricRouter);
 app.get('/', authCheck, (req: any, res: any) => {
     dbMet.loadAllFrom(req.session.user.username, (err: Error | null, result: any) => {
         if (err) throw err
-        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, date: req.query.date, time: req.query.time });
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
     })
 });
 
@@ -251,7 +249,7 @@ app.get('/home', (req: any, res: any) => {
             return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, metric: metricSearched, date: req.query.date, time: req.query.time});
         }
         else {
-        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username, date: req.query.date, time: req.query.time });
+        return res.status(200).render('home.ejs', { dataset: result, name: req.session.user.username });
         }
     })
 })
