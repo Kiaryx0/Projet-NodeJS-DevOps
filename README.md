@@ -20,12 +20,21 @@ The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
 * Open the project folder on Visual Studio Code
 * Create a new Terminal
 
-**Warning**
-If you are using a Windows OS, you have to run this command first : 
+1. #### Warning
+
+If you are using a Windows OS, you have to run this command **as Administrator** first:
 ```
 npm install --global --production windows-build-tools
 ```
 * Run the command : **npm install**
+
+2. #### Warning
+If you are using Linux or MacOS, you have to create:
+  * db folder
+  * metrics folder inside db folder
+  * users folder inside db folder
+  * session folder inside db folder
+
 * Run the command : **npm run populate**
 * Run the command : **npm test**
 * Run the command : **npm start**
