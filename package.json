@@ -4,7 +4,7 @@
   "description": "Project NodeJS & DevOps",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node bin/populate.ts && mocha -r ts-node/register src/**/*.test.ts",
+    "test": "mocha -r ts-node/register src/**/*.test.ts",
     "populate": "ts-node bin/populate.ts",
     "start": "ts-node src/server.ts",
     "dev": "nodemon",
