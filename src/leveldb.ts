@@ -8,7 +8,11 @@ import del from 'del'
 export class LevelDB {
 
   static open(path: string) {
-    const encoded = encoding(leveldown(path), { valueEncoding: 'json', "createIfMissing": true })
+    console.log(path);
+    if(!fs.existsSync(path)){
+      fs.mkdir('./path/to/dir', {recursive: true}, err => {});
+    } 
+    const encoded = encoding(leveldown(path), { valueEncoding: 'json', createIfMissing: true })
     return levelup(encoded)
   }
 
