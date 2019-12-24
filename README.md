@@ -1,7 +1,7 @@
-# Projet-NodeJS-DevOps
-
-This repository contains the source code of the NodeJS and DevOps Project.
+# Projet-NodeJS-DevOps               
 The code was written by Louis Deveze &amp; Maxime Tran &amp; Sebastien Ye.
+
+### Travis Build : ![Travis Build](https://travis-ci.com/LouisDeveze/Projet-NodeJS-DevOps.svg?branch=master) 
 
 ## Content
 

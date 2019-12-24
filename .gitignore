@@ -1,8 +1,4 @@
 # dependencies
 /node_modules
-
-#db
-/db
-/db/metrics/*
-/db/sessions/*
-/db/users/*
+/npm-debug.log
+/package-lock.json
